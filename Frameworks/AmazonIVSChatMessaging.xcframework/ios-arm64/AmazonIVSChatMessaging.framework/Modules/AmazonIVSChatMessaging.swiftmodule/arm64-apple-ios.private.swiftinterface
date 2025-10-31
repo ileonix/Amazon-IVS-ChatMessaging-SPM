@@ -1,0 +1,333 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name AmazonIVSChatMessaging
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1.2
+import Combine
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum Chat {
+  public typealias ServerID = Swift.String
+  public typealias RequestID = Swift.String
+  public typealias Attributes = [Swift.String : Swift.String]
+}
+@_hasMissingDesignatedInitializers @objcMembers @objc(AmazonIVSChatError) final public class ChatError : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable, Swift.Error {
+  @objc(AmazonIVSChatErrorCode) @frozen public enum Code : Swift.Int, Swift.Codable, Swift.CaseIterable, Swift.CustomStringConvertible {
+    case invalidParameter = 400
+    case unauthorized = 401
+    case forbidden = 403
+    case resourceNotFound = 404
+    case notAcceptable = 406
+    case payloadTooLarge = 413
+    case tooManyRequests = 429
+    case internalServerError = 500
+    public init(from decoder: any Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public var description: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias AllCases = [AmazonIVSChatMessaging.ChatError.Code]
+    public typealias RawValue = Swift.Int
+    nonisolated public static var allCases: [AmazonIVSChatMessaging.ChatError.Code] {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc final public let id: AmazonIVSChatMessaging.Chat.ServerID
+  @objc final public let requestId: AmazonIVSChatMessaging.Chat.RequestID?
+  @objc final public let errorCode: AmazonIVSChatMessaging.ChatError.Code
+  @objc final public let errorMessage: Swift.String?
+  final public var type: AmazonIVSChatMessaging.ChatEntity
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  public typealias ID = AmazonIVSChatMessaging.Chat.ServerID
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatEvent) final public class ChatEvent : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable, Swift.Comparable {
+  @objc final public let eventName: Swift.String
+  final public var systemEvent: AmazonIVSChatMessaging.SystemEvent? {
+    get
+    set
+  }
+  @objc final public let id: AmazonIVSChatMessaging.Chat.ServerID
+  @objc final public let requestId: AmazonIVSChatMessaging.Chat.RequestID?
+  @objc final public let sendTime: Foundation.Date
+  @objc final public let attributes: AmazonIVSChatMessaging.Chat.Attributes?
+  final public var type: AmazonIVSChatMessaging.ChatEntity {
+    get
+  }
+  public static func == (lhs: AmazonIVSChatMessaging.ChatEvent, rhs: AmazonIVSChatMessaging.ChatEvent) -> Swift.Bool
+  public static func < (lhs: AmazonIVSChatMessaging.ChatEvent, rhs: AmazonIVSChatMessaging.ChatEvent) -> Swift.Bool
+  public typealias ID = AmazonIVSChatMessaging.Chat.ServerID
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatMessage) final public class ChatMessage : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable, Swift.Comparable {
+  @objc final public let content: Swift.String
+  @objc final public let sender: AmazonIVSChatMessaging.ChatUser
+  @objc final public let id: AmazonIVSChatMessaging.Chat.ServerID
+  @objc final public let requestId: AmazonIVSChatMessaging.Chat.RequestID?
+  @objc final public let sendTime: Foundation.Date
+  @objc final public let attributes: AmazonIVSChatMessaging.Chat.Attributes?
+  final public var type: AmazonIVSChatMessaging.ChatEntity {
+    get
+  }
+  public static func == (lhs: AmazonIVSChatMessaging.ChatMessage, rhs: AmazonIVSChatMessaging.ChatMessage) -> Swift.Bool
+  public static func < (lhs: AmazonIVSChatMessaging.ChatMessage, rhs: AmazonIVSChatMessaging.ChatMessage) -> Swift.Bool
+  public typealias ID = AmazonIVSChatMessaging.Chat.ServerID
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@frozen public enum ChatEntity : Swift.String, Swift.Codable {
+  case message
+  case event
+  case error
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol ChatRequest : AnyObject, Swift.Decodable, Swift.Encodable {
+  associatedtype ResponseType
+  var action: Swift.String { get }
+  var requestId: AmazonIVSChatMessaging.Chat.RequestID { get }
+}
+@objcMembers @objc(AmazonIVSChatSendMessageRequest) public class SendMessageRequest : ObjectiveC.NSObject, AmazonIVSChatMessaging.ChatRequest {
+  public typealias ResponseType = AmazonIVSChatMessaging.ChatMessage
+  @objc public var action: Swift.String {
+    get
+  }
+  @objc public var requestId: Swift.String {
+    get
+  }
+  @objc public init(content: Swift.String, attributes: AmazonIVSChatMessaging.Chat.Attributes = [:])
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatDeleteMessageRequest) public class DeleteMessageRequest : ObjectiveC.NSObject, AmazonIVSChatMessaging.ChatRequest {
+  public typealias ResponseType = AmazonIVSChatMessaging.DeletedMessage
+  @objc public var action: Swift.String {
+    get
+  }
+  @objc public var requestId: Swift.String {
+    get
+  }
+  @objc required public init(id: AmazonIVSChatMessaging.Chat.ServerID, reason: Swift.String? = nil)
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatDisconnectUserRequest) public class DisconnectUserRequest : ObjectiveC.NSObject, AmazonIVSChatMessaging.ChatRequest {
+  public typealias ResponseType = AmazonIVSChatMessaging.DisconnectedUser
+  @objc public var action: Swift.String {
+    get
+  }
+  @objc public var requestId: Swift.String {
+    get
+  }
+  @objc required public init(id: AmazonIVSChatMessaging.Chat.ServerID, reason: Swift.String? = nil)
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers @objcMembers @objc(AmazonIVSChatRoom) final public class ChatRoom : ObjectiveC.NSObject, Combine.ObservableObject {
+  @objc(AmazonIVSChatRoomState) @frozen public enum State : Swift.Int, Swift.Equatable, Swift.CustomStringConvertible, Swift.CaseIterable {
+    case connecting
+    case connected
+    case disconnected
+    public var description: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias AllCases = [AmazonIVSChatMessaging.ChatRoom.State]
+    public typealias RawValue = Swift.Int
+    nonisolated public static var allCases: [AmazonIVSChatMessaging.ChatRoom.State] {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc weak final public var delegate: (any AmazonIVSChatMessaging.ChatRoomDelegate)?
+  final public var logger: any AmazonIVSChatMessaging.ChatLogger {
+    get
+    set
+  }
+  @objc @Combine.Published @_projectedValueProperty($state) final public var state: AmazonIVSChatMessaging.ChatRoom.State {
+    @objc get
+  }
+  final public var $state: Combine.Published<AmazonIVSChatMessaging.ChatRoom.State>.Publisher {
+    get
+  }
+  convenience public init(awsRegion: Swift.String, maxReconnectAttempts: Swift.Int = 3, asyncTokenProvider: @escaping AmazonIVSChatMessaging.ChatToken.AsyncProvider)
+  @objc convenience public init(awsRegion: Swift.String, maxReconnectAttempts: Swift.Int = 3, tokenProvider: any AmazonIVSChatMessaging.ChatTokenProvider)
+  @objc deinit
+  @objc final public func connect() async throws
+  @objc final public func connect(_ completion: @escaping (AmazonIVSChatMessaging.ChatRoom, (any Swift.Error)?) -> Swift.Void)
+  @objc final public func disconnect()
+  @discardableResult
+  final public func perform<T>(request: T) async throws -> T.ResponseType where T : AmazonIVSChatMessaging.ChatRequest
+  @objc(sendMessageWithRequest:successBlock:failureBlock:) final public func sendMessage(with request: AmazonIVSChatMessaging.SendMessageRequest, onSuccess: ((AmazonIVSChatMessaging.SendMessageRequest.ResponseType) -> Swift.Void)? = nil, onFailure: ((AmazonIVSChatMessaging.ChatError) -> Swift.Void)? = nil)
+  @objc(deleteMessageWithRequest:successBlock:failureBlock:) final public func deleteMessage(with request: AmazonIVSChatMessaging.DeleteMessageRequest, onSuccess: ((AmazonIVSChatMessaging.DeleteMessageRequest.ResponseType) -> Swift.Void)? = nil, onFailure: ((AmazonIVSChatMessaging.ChatError) -> Swift.Void)? = nil)
+  @objc(disconnectUserWithRequest:successBlock:failureBlock:) final public func disconnectUser(with request: AmazonIVSChatMessaging.DisconnectUserRequest, onSuccess: ((AmazonIVSChatMessaging.DisconnectUserRequest.ResponseType) -> Swift.Void)? = nil, onFailure: ((AmazonIVSChatMessaging.ChatError) -> Swift.Void)? = nil)
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+}
+public enum SystemEvent : Swift.String, Swift.Codable {
+  case deleteMessage
+  case disconnectUser
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objcMembers @objc(AmazonIVSChatDeletedMessage) final public class DeletedMessage : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable {
+  @objc final public let messageID: AmazonIVSChatMessaging.Chat.ServerID
+  @objc final public let requestId: AmazonIVSChatMessaging.Chat.RequestID
+  @objc final public let reason: Swift.String?
+  public typealias ID = Swift.ObjectIdentifier
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatDisconnectedUser) final public class DisconnectedUser : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable {
+  @objc final public let userId: AmazonIVSChatMessaging.Chat.ServerID
+  @objc final public let requestId: AmazonIVSChatMessaging.Chat.RequestID
+  @objc final public let reason: Swift.String?
+  public typealias ID = Swift.ObjectIdentifier
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc(AmazonIVSChatToken) final public class ChatToken : ObjectiveC.NSObject, Swift.Codable {
+  @objc public init(token: Swift.String, tokenExpirationTime: Foundation.Date? = nil, sessionExpirationTime: Foundation.Date? = nil)
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers @objcMembers @objc(AmazonIVSChatUser) final public class ChatUser : ObjectiveC.NSObject, Swift.Codable, Swift.Identifiable {
+  @objc final public let userId: Swift.String
+  @objc final public let attributes: AmazonIVSChatMessaging.Chat.Attributes?
+  @objc final public var id: Swift.String {
+    @objc get
+  }
+  public typealias ID = Swift.String
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension Foundation.JSONDecoder.DateDecodingStrategy {
+  public static let preciseISO8601: Foundation.JSONDecoder.DateDecodingStrategy
+}
+extension Foundation.JSONEncoder.DateEncodingStrategy {
+  public static var preciseISO8601: Foundation.JSONEncoder.DateEncodingStrategy {
+    get
+  }
+}
+extension Swift.Sequence {
+  @inlinable internal func sorted<T>(by keyPath: Swift.KeyPath<Self.Element, T>) -> [Self.Element] where T : Swift.Comparable {
+        sorted { lhs, rhs in
+            lhs[keyPath: keyPath] <= rhs[keyPath: keyPath]
+        }
+    }
+}
+public enum ChatLogLevel : Swift.String, Swift.Comparable, Swift.CaseIterable {
+  case trace
+  case debug
+  case info
+  case notice
+  case warning
+  case error
+  case critical
+  public static func < (lhs: AmazonIVSChatMessaging.ChatLogLevel, rhs: AmazonIVSChatMessaging.ChatLogLevel) -> Swift.Bool
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [AmazonIVSChatMessaging.ChatLogLevel]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [AmazonIVSChatMessaging.ChatLogLevel] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol ChatLogger {
+  var level: AmazonIVSChatMessaging.ChatLogLevel { get set }
+  @inlinable func trace<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func debug<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func info<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func notice<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func warning<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func error<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func critical<T>(_ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+  @inlinable func log<T>(level: AmazonIVSChatMessaging.ChatLogLevel, _ message: @autoclosure () -> T, file: Swift.String, function: Swift.String, line: Swift.UInt) where T : Swift.CustomStringConvertible
+}
+extension AmazonIVSChatMessaging.ChatLogger {
+  @inlinable public func trace<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .trace, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func debug<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .debug, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func info<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .info, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func notice<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .notice, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func warning<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .warning, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func error<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .error, message(), file: file, function: function, line: line)
+    }
+  @inlinable public func critical<T>(_ message: @autoclosure () -> T, file: Swift.String = #file, function: Swift.String = #function, line: Swift.UInt = #line) where T : Swift.CustomStringConvertible {
+        log(level: .critical, message(), file: file, function: function, line: line)
+    }
+}
+@objc(AmazonIVSChatRoomDelegate) public protocol ChatRoomDelegate {
+  @objc(room:didReceiveMessage:) func room(_ room: AmazonIVSChatMessaging.ChatRoom, didReceive message: AmazonIVSChatMessaging.ChatMessage)
+  @objc(room:didReceiveEvent:) optional func room(_ room: AmazonIVSChatMessaging.ChatRoom, didReceive event: AmazonIVSChatMessaging.ChatEvent)
+  @objc(room:didDeleteMessage:) optional func room(_ room: AmazonIVSChatMessaging.ChatRoom, didDelete message: AmazonIVSChatMessaging.DeletedMessage)
+  @objc(room:didDisconnectUser:) optional func room(_ room: AmazonIVSChatMessaging.ChatRoom, didDisconnect user: AmazonIVSChatMessaging.DisconnectedUser)
+  @objc(roomDidConnect:) optional func roomDidConnect(_ room: AmazonIVSChatMessaging.ChatRoom)
+  @objc(roomIsConnecting:) optional func roomIsConnecting(_ room: AmazonIVSChatMessaging.ChatRoom)
+  @objc(roomDidDisconnect:) optional func roomDidDisconnect(_ room: AmazonIVSChatMessaging.ChatRoom)
+}
+@objc(AmazonIVSChatTokenProvider) public protocol ChatTokenProvider {
+  @objc func getChatToken() async throws -> AmazonIVSChatMessaging.ChatToken
+}
+extension AmazonIVSChatMessaging.ChatToken {
+  public typealias AsyncProvider = () async throws -> AmazonIVSChatMessaging.ChatToken
+}
+extension AmazonIVSChatMessaging.ChatError.Code : Swift.Equatable {}
+extension AmazonIVSChatMessaging.ChatError.Code : Swift.Hashable {}
+extension AmazonIVSChatMessaging.ChatError.Code : Swift.RawRepresentable {}
+extension AmazonIVSChatMessaging.ChatError.Code : Swift.Sendable {}
+extension AmazonIVSChatMessaging.ChatError.Code : Swift.BitwiseCopyable {}
+extension AmazonIVSChatMessaging.ChatEntity : Swift.Equatable {}
+extension AmazonIVSChatMessaging.ChatEntity : Swift.Hashable {}
+extension AmazonIVSChatMessaging.ChatEntity : Swift.RawRepresentable {}
+extension AmazonIVSChatMessaging.ChatEntity : Swift.Sendable {}
+extension AmazonIVSChatMessaging.ChatEntity : Swift.BitwiseCopyable {}
+extension AmazonIVSChatMessaging.ChatRoom.State : Swift.Hashable {}
+extension AmazonIVSChatMessaging.ChatRoom.State : Swift.RawRepresentable {}
+extension AmazonIVSChatMessaging.ChatRoom.State : Swift.Sendable {}
+extension AmazonIVSChatMessaging.ChatRoom.State : Swift.BitwiseCopyable {}
+extension AmazonIVSChatMessaging.SystemEvent : Swift.Equatable {}
+extension AmazonIVSChatMessaging.SystemEvent : Swift.Hashable {}
+extension AmazonIVSChatMessaging.SystemEvent : Swift.RawRepresentable {}
+extension AmazonIVSChatMessaging.ChatLogLevel : Swift.Hashable {}
+extension AmazonIVSChatMessaging.ChatLogLevel : Swift.RawRepresentable {}
